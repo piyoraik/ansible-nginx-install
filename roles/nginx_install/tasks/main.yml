@@ -1,0 +1,17 @@
+- name: nginx install
+  shell: "amazon-linux-extras install -y nginx1"
+  changed_when: False
+
+# nginxの起動・自動起動設定
+- name: nginx start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+# /etc/nginx/nginx.confのkeepalive_timeoutの設定値変更
+- name: nginx modify file
+  replace:
+    dest: /etc/nginx/nginx.conf
+    regexp: "keepalive_timeout.*"
+    replace: "keepalive_timeout 100;"
